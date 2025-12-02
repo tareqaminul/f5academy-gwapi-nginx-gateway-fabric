@@ -2,6 +2,8 @@
 ### https://devopscube.com/kubernetes-gateway-api/
 ### https://devopscube.com/istio-ingress-kubernetes-gateway-api/
 
+## Introduction
+
 
 ## NGF
 NGINX Gateway Fabric provides an implementation of the Gateway API using NGINX as the data plane. The goal of the project is to implement the core Gateway APIs needed to configure an HTTP or TCP/UDP load balancer, reverse proxy, or API gateway for Kubernetes applications.
@@ -18,3 +20,9 @@ Each NGINX data plane pod consists of an NGINX container integrated with NGINX A
 This design enables centralized management of multiple Gateways while ensuring that each NGINX instance stays aligned with the cluster’s current configuration.
 
 For more information, see the [Gateway architecture](https://docs.nginx.com/nginx-gateway-fabric/overview/gateway-architecture/) topic.
+
+### Installation
+HELM
+
+### What the HELM!
+asdfasdf
