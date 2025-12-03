@@ -51,6 +51,16 @@ The following table compares the key high‑level features of the standard Ingre
 
 ---
 ### Installation
+We will make use of killercoda environment. 
+```mermaid
+graph TD
+  A[Killercoda login] --> B[Choose a Kubernetes Playground]
+  B --> C[Explore Environment]
+  C --> D[Deploy NGINX Gateway Fabric]
+  D --> E[Test Gateway API Use Cases]
+```
+
+
 ```mermaid
 sequenceDiagram
   Client->>NGINX: Request
@@ -65,13 +75,30 @@ Click Playgrounds
 ![killercoda-pgs](./images/01-killercoda-pg.png)
 
 Select a Playground 
-![killercoda-pgs](./images/02-killercoda-nodes.png)
+![killercoda-pg](./images/02-killercoda-nodes.png)
 
-
+Start using killercoda
+![killercoda-start](./images/03-killercoda-start.png)
 HELM
 
+Explore killercoda Environment
+```sh
+kubectl get nodes -owide
+kubectl get ns
+kubectl get pods -A
+kubectl api-resources
+kubectl get crd
+
+...
+```
+
+Example Output
+![killercoda-explore](./images/04-killercoda-explore-example.png)
+
+
 ### What the HELM!
-asd
+brief on helm
+
 ---
 asdfadsf
 ---
