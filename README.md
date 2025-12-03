@@ -1,6 +1,15 @@
 # NGF-master
-### https://devopscube.com/kubernetes-gateway-api/
-### https://devopscube.com/istio-ingress-kubernetes-gateway-api/
+
+In this Lab, you will learn about the Kubernetes Gateway API and it's setup and configuration in a Kubernetes cluster.
+
+By the end of this guide, you will have learned:  
+    ✔ What the Kubernetes Gateway API is  
+    ✔ Key concepts of the Gateway API  
+    ✔ Practical implementation of Gateway API controllers with NGINX Gateway Fabric  
+    ✔ How to use Gateway API objects like GatewayClass, Gateway, and HTTPRoute  
+    ✔ How to implement path-based routing using the Gateway API and more.  
+
+Let's get started!
 
 ## Introduction
 
@@ -10,14 +19,13 @@ To overcome the limitations of traditional ingress controllers better, the Kuber
 
 In short, the Gateway API is a paradigm shift in traffic management.
 
-Hyperlinks: 
-🚀 Deploy
-⚙️ Config
-🧪 Testing
-🛡️ Security
-🧵 Logs
-🔧 Debug
-📘 Docs
+Shortcuts: 
+[🚀 Deploy](#installation)
+⚙️ [Config](#test-gateway-use-cases)
+🧪 [Testing](#test-gateway-use-cases)
+[🧵 Monitoring](https://docs.nginx.com/nginx-gateway-fabric/monitoring/)
+[🔧 Troubleshooting](https://docs.nginx.com/nginx-gateway-fabric/troubleshooting/)
+[📘 Docs](docs.nginx.com)
 
 ## NGINX Gateway Fabric - F5 NGINX Implementaion of Gateway API
 NGINX Gateway Fabric provides an implementation of the Gateway API using NGINX as the data plane. The goal of the project is to implement the core Gateway APIs needed to configure an HTTP or TCP/UDP load balancer, reverse proxy, or API gateway for Kubernetes applications.
@@ -50,7 +58,7 @@ The following table compares the key high‑level features of the standard Ingre
 ![compare-apis](./images/compare-apis-ingress-gwapi.png)
 
 ---
-### Installation
+## Installation
 We will make use of killercoda environment. 
 ```mermaid
 graph TD
@@ -98,9 +106,9 @@ Example Output
 
 ### What the HELM!
 brief on helm
-
 ---
-asdfadsf
+## Test Gateway Use Cases
+
 ---
 # Further Reading
 ---
