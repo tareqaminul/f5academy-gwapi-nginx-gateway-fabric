@@ -8,6 +8,17 @@ Kubernetes has become the foundation for cloud-native applications. However, man
 
 To overcome the limitations of traditional ingress controllers better, the Kubernetes community has introduced the Gateway API. This is a new, forward-looking, standards-based approach to service networking. Unlike the more rigid Ingress, the Gateway API provides greater flexibility, role-specific functionalities, and a comprehensive set of features. It encourages collaboration among platform engineers, developers, and security teams by supporting advanced capabilities such as TLS offloading, traffic splitting, and smooth integration with service meshes.
 
+In short, the Gateway API is a paradigm shift in traffic management.
+
+Hyperlinks: 
+🚀 Deploy
+⚙️ Config
+🧪 Testing
+🛡️ Security
+🧵 Logs
+🔧 Debug
+📘 Docs
+
 ## NGINX Gateway Fabric - F5 NGINX Implementaion of Gateway API
 NGINX Gateway Fabric provides an implementation of the Gateway API using NGINX as the data plane. The goal of the project is to implement the core Gateway APIs needed to configure an HTTP or TCP/UDP load balancer, reverse proxy, or API gateway for Kubernetes applications.
 
@@ -47,6 +58,15 @@ sequenceDiagram
   Backend-->>NGINX: Response
   NGINX-->>Client: 200 OK
 ```  
+Login to killercoda.com
+![killercoda-logn](./images/00-killercoda-login.png)
+
+Click Playgrounds
+![killercoda-pgs](./images/01-killercoda-pg.png)
+
+Select a Playground 
+![killercoda-pgs](./images/02-killercoda-nodes.png)
+
 
 HELM
 
@@ -72,9 +92,11 @@ We don’t expect NGINX Gateway Fabric to replace NGINX Ingress Controller any t
 ### Is NGINX Gateway Fabric an API Gateway?
 While it’s reasonable to think something named “Gateway API” is an “API gateway”, this is not the case. As discussed in How Do I Choose? API Gateway vs. Ingress Controller vs. Service Mesh, “API gateway” describes a set of use cases that can be implemented via different types of proxies – most commonly an ADC or load balancer and reverse proxy, and increasingly an Ingress controller or service mesh. That said, much like NGINX Ingress Controller, NGINX Gateway Fabric can be used for API gateway use cases, including routing requests to specific microservices, implementing traffic policies, and enabling canary and blue‑green deployments. This release is focused on processing HTTP/HTTPS traffic. More protocols and use cases are planned for future releases.
 
-### How Do I Get Started?
+### How Do I Get Started with NGINX One?
 Ready to try this exciting new technology? Get the release of NGINX Gateway Fabric. For deployment instructions, see the README.
 
 For detailed information on the Gateway API specifications, refer to the Kubernetes Gateway API documentation.
 
+```mermaid
 We encourage you to submit feedback, feature requests, use cases, and any other suggestions so that we can help you solve your challenges and succeed. Please share your feedback at our GitHub repo.
+```
