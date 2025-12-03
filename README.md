@@ -92,9 +92,10 @@ kubectl get crd
 ...
 ```
 
-Example Output
+<details>
+<summary> Click to View Example Output
 ![killercoda-explore](./images/04-killercoda-explore-example.png)
-
+</details>
 
 ### What the HELM!
 brief on helm
