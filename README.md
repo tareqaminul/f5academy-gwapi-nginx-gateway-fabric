@@ -17,7 +17,7 @@ Kubernetes has become the foundation for cloud-native applications. However, man
 
 To overcome the limitations of traditional ingress controllers better, the Kubernetes community has introduced the Gateway API. This is a new, forward-looking, standards-based approach to service networking. Unlike the more rigid Ingress, the Gateway API provides greater flexibility, role-specific functionalities, and a comprehensive set of features. It encourages collaboration among platform engineers, developers, and security teams by supporting advanced capabilities such as TLS offloading, traffic splitting, and smooth integration with service meshes.
 
-```mermaid
+```text
 In Ingress controllers, we define routing rules in the Ingress object. The Ingress Controller handles the actual routing. The same concept applies to the Gateway API.
 
 While the Gateway API provides many objects to manage cluster traffic, the actual routing is done by a Gateway API Controller. This controller is NOT built-in into Kubernetes. We need to install the controller, just like with Ingress case.
@@ -155,13 +155,13 @@ Using these resources we will configure a simple routing rule to match all HTTP 
 ## Test Gateway Use Cases
 
 ```yaml
-kubectl apply -f - <<EOF
+cat <<EOF > cafe.yaml
 apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: coffee
 spec:
-  replicas: 2
+  replicas: 1
   selector:
     matchLabels:
       app: coffee
@@ -188,22 +188,92 @@ spec:
     name: http
   selector:
     app: coffee
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: tea
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: tea
+  template:
+    metadata:
+      labels:
+        app: tea
+    spec:
+      containers:
+      - name: tea
+        image: nginxdemos/nginx-hello:plain-text
+        ports:
+        - containerPort: 8080
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: tea
+spec:
+  ports:
+  - port: 80
+    targetPort: 8080
+    protocol: TCP
+    name: http
+  selector:
+    app: tea
 EOF
+kubectl apply -f cafe.yaml
 ```
 Verify
 ```bash
 kubectl get pods,svc
 ```
 
-Your output should include two coffee pods and the coffee service:
+Your output should include coffee and tea pods and services::
 ```txt
-NAME                          READY   STATUS      RESTARTS   AGE
-pod/coffee-7dd75bc79b-cqvb7   1/1     Running     0          77s
-pod/coffee-7dd75bc79b-dett3   1/1     Running     0          77s
-
+$ kubectl get pods,svc
+NAME                          READY   STATUS    RESTARTS   AGE
+pod/coffee-5b9c74f9d9-7n22w   1/1     Running   0          98s
+pod/tea-859766c68c-jmjxl      1/1     Running   0          98s
 
 NAME                 TYPE        CLUSTER-IP      EXTERNAL-IP   PORT(S)   AGE
-service/coffee       ClusterIP   198.51.100.1     <none>        80/TCP    77s
+service/coffee       ClusterIP   10.100.139.53   <none>        80/TCP    98s
+service/tea          ClusterIP   10.103.46.146   <none>        80/TCP    98s
+```
+Create Gateway and HTTPRoute resources
+Run the following command to create the file gateway.yaml, which is then used to deploy a Gateway to your cluster:
+```bash
+cat <<EOF > gateway.yaml
+apiVersion: gateway.networking.k8s.io/v1
+kind: Gateway
+metadata:
+  name: gateway
+spec:
+  gatewayClassName: nginx
+  listeners:
+  - name: http
+    port: 80
+    protocol: HTTP
+    hostname: "*.example.com"
+EOF
+kubectl apply -f gateway.yaml
+```
+```txt
+gateway.gateway.networking.k8s.io/gateway created
+```
+Verify that the NGINX deployment has been provisioned:
+```bash
+kubectl -n default get pods
+```
+```txt
+NAME                             READY   STATUS    RESTARTS   AGE
+coffee-676c9f8944-k2bmd          1/1     Running   0          31s
+gateway-nginx-66b5d78f8f-4fmtb   1/1     Running   0          13s
+tea-6fbfdcb95d-9lhbj             1/1     Running   0          31s
+```
+Test
+```bash
+curl  http://localhost:32659/coffee -H "Host: cafe.example.com"
 ```
 
 ---
@@ -229,6 +299,6 @@ Ready to try this exciting new technology? Get the release of NGINX Gateway Fabr
 
 For detailed information on the Gateway API specifications, refer to the Kubernetes Gateway API documentation.
 
-```mermaid
+```text
 We encourage you to submit feedback, feature requests, use cases, and any other suggestions so that we can help you solve your challenges and succeed. Please share your feedback at our GitHub repo.
 ```
