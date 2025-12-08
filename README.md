@@ -13,16 +13,20 @@ Let's get started!
 
 ## Introduction
 ### The Gateway API is a paradigm shift in Kubernetes traffic management.
-Kubernetes has become the foundation for cloud-native applications. However, managing and routing traffic within clusters remains a challenging issue. The traditional Ingress resource, though helpful in exposing services, has shown limitations. Its loosely defined specifications often cause controller-specific behaviors, complicated annotations, and hinder portability across different environments. These challenges become even more apparent as organizations scale their microservices architectures. Ingress was designed primarily for basic service exposure and routing. While it can be extended with annotations or custom controllers, it lacks first-class support for advanced deployment patterns such as canary or blue-green releases. This forces teams to rely on add-ons or vendor-specific features, which adds complexity and reduces portability.
+Kubernetes has become the foundation for cloud-native applications. However, managing and routing traffic within clusters remains a challenging issue. The traditional Ingress resource, though helpful in exposing services, has shown limitations. Its loosely defined specifications often cause controller-specific behaviors, complicated annotations, and hinder portability across different environments. These challenges become even more apparent as organizations scale their microservices architectures. Ingress was designed primarily for basic service exposure and routing. While it can be extended with annotations or custom controllers, it lacks first-class support for advanced deployment patterns such as canary or blue-green releases. This forces teams to rely on add-ons or vendor-specific features, which adds complexity and reduces portability. 
 
 To overcome the limitations of traditional ingress controllers better, the Kubernetes community has introduced the Gateway API. This is a new, forward-looking, standards-based approach to service networking. Unlike the more rigid Ingress, the Gateway API provides greater flexibility, role-specific functionalities, and a comprehensive set of features. It encourages collaboration among platform engineers, developers, and security teams by supporting advanced capabilities such as TLS offloading, traffic splitting, and smooth integration with service meshes.
 
-```text
-In Ingress controllers, we define routing rules in the Ingress object. The Ingress Controller handles the actual routing. The same concept applies to the Gateway API.
+<mark>In Ingress controllers, we define routing rules in the Ingress object. The Ingress Controller handles the actual routing. The same concept applies to the Gateway API.
 
-While the Gateway API provides many objects to manage cluster traffic, the actual routing is done by a Gateway API Controller. This controller is NOT built-in into Kubernetes. We need to install the controller, just like with Ingress case.
-```
+<mark>While the Gateway API provides many objects to manage cluster traffic, the actual routing is done by a Gateway API Controller. This controller is NOT built-in into Kubernetes. We need to install the controller, just like with Ingress case.
 
+> In Ingress controllers, we define routing rules in the Ingress object. The Ingress Controller handles the actual routing. The same concept applies to the Gateway API.
+>
+> While the Gateway API provides many objects to manage cluster traffic, the actual routing is done by a Gateway API Controller. This controller is NOT built-in into Kubernetes. We need to install the controller, just like with Ingress case.
+
+
+---
 Shortcuts: 
 [🚀 Deploy](#installation)
 ⚙️ [Config](#test-gateway-use-cases)
@@ -30,7 +34,7 @@ Shortcuts:
 [🧵 Monitoring](https://docs.nginx.com/nginx-gateway-fabric/monitoring/)
 [🔧 Troubleshooting](https://docs.nginx.com/nginx-gateway-fabric/troubleshooting/)
 [📘 Docs](docs.nginx.com)
-
+---
 
 ## NGINX Gateway Fabric - F5 NGINX Implementaion of Gateway API
 NGINX Gateway Fabric provides an implementation of the Gateway API using NGINX as the data plane. The goal of the project is to implement the core Gateway APIs needed to configure an HTTP or TCP/UDP load balancer, reverse proxy, or API gateway for Kubernetes applications.
@@ -42,11 +46,11 @@ For a list of supported Gateway API resources and features, see the [Gateway API
 ### Design
 ---
 
-In Nginx Gateway Fabric, two types of controllers.
+Nginx Gateway Fabric(NGF) consists of two types of controllers.
 - **Control Plane Controller**
 - **Data Plane Controller**
 
-NGINX Gateway Fabric separates the control plane and data plane into distinct deployments. The control plane interacts with the Kubernetes API, watching for Gateway API resources.
+It separates the control plane and data plane into two distinct deployments. The control plane interacts with the Kubernetes API, watching for Gateway API resources.
 
 **Control Plane Controller**
 - When we install the Nginx Gateway Fabric on Kubernetes, the Control plane controller will be deployed.
@@ -142,15 +146,15 @@ brief helm
 </details>
 
 ### Example application
-The application we are going to use in this guide is a simple coffee application comprised of one service and two pods:
+We deployed the NGINX implementation of Gateway API and now, it is ready to process the API requests relevant to configuring L4 and L7 routing in Kubernetes. Pls check [here](https://gateway-api.sigs.k8s.io/concepts/api-overview/), for a quick overview! But before that, we need an example application with multiple routes to which the NGF would route traffic to. 
 
-![example-app](./images/00-test-example-app.png)
+The application we are going to use in this guide is a simple cafe application comprised of two services - coffee and tea. The initial objective is to route all traffic to hostname **cafe.example.com** to one of these services based on URI Parameters **/coffee** OR **/tea**.
 
-Using this architecture, the coffee application is not accessible outside the cluster. We want to expose this application on the hostname "cafe.example.com" so that clients outside the cluster can access it.
+![example-app](./images/coffee-tea-routing.jpg)
 
-Install NGINX Gateway Fabric and create two Gateway API resources: a gateway and an HTTPRoute.
+None of the services is accessible directly from outside the cluster. We want to expose this application on the hostname "cafe.example.com" so that clients outside the cluster can access it and 
 
-Using these resources we will configure a simple routing rule to match all HTTP traffic with the hostname "cafe.example.com" and route it to the coffee service.
+Let us deploy the example application: 
 
 ## Test Gateway Use Cases
 
@@ -240,6 +244,10 @@ NAME                 TYPE        CLUSTER-IP      EXTERNAL-IP   PORT(S)   AGE
 service/coffee       ClusterIP   10.100.139.53   <none>        80/TCP    98s
 service/tea          ClusterIP   10.103.46.146   <none>        80/TCP    98s
 ```
+The services are internal  create two Gateway API resources: a gateway and an HTTPRoute.
+
+Using these resources we will configure a simple routing rule to match all HTTP traffic with the hostname "cafe.example.com" and route it to the coffee service.
+
 Create Gateway and HTTPRoute resources
 Run the following command to create the file gateway.yaml, which is then used to deploy a Gateway to your cluster:
 ```bash
