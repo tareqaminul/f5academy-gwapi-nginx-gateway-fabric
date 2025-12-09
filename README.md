@@ -516,6 +516,7 @@ sequenceDiagram
 ```
 
 ---
+<mark> DELETE DELETE DELETE DELETE DELETE DELETE DELETE DELETE DELETE DELETE DELETE DELETE DELETE DELETE DELETE DELETE DELETE 
 ---
 ## REMOVE - Installation - REMOVE
 ![flow](./images/test-gif.gif)
@@ -711,7 +712,7 @@ Test
 ```bash
 curl  http://localhost:32659/coffee -H "Host: cafe.example.com"
 ```
-
+<mark> DELETE DELETE DELETE DELETE DELETE DELETE DELETE DELETE DELETE DELETE DELETE DELETE DELETE DELETE DELETE DELETE DELETE 
 ---
 # Further Reading
 ---
