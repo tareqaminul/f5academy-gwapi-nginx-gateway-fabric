@@ -68,7 +68,50 @@ Built on the Gateway API standard, NGINX Gateway Fabric offers a production-read
 
 For a list of supported Gateway API resources and features, see the [Gateway API Compatibility](https://docs.nginx.com/nginx-gateway-fabric/overview/gateway-api-compatibility/) documentation.
 ---
-### Design
+
+
+## Architecture
+
+### NGINX Gateway Fabric Overview
+
+[NGINX Gateway Fabric](https://github.com/nginx/nginx-gateway-fabric) is F5 NGINX's production-ready implementation of the Gateway API standard. It leverages NGINX as the data plane to provide:
+
+- High-performance HTTP and TCP/UDP load balancing
+- Reverse proxy and API gateway capabilities
+- Centralized management via NGINX One Console
+- Full observability and security features
+
+For a complete list of supported resources and features, see the [Gateway API Compatibility](https://docs.nginx.com/nginx-gateway-fabric/overview/gateway-api-compatibility/) documentation.
+
+### Design Architecture
+
+NGINX Gateway Fabric uses a split-plane architecture with two controller types:
+
+#### Control Plane Controller
+- Deployed when you install NGINX Gateway Fabric
+- Watches Gateway API custom resources (Gateway, HTTPRoute, TLSRoute, etc.)
+- Translates Gateway API resources into NGINX configurations
+- Manages the lifecycle of data plane deployments
+
+#### Data Plane Controller
+- Dynamically created when a Gateway resource is provisioned
+- Consists of NGINX container with NGINX Agent
+- Handles actual traffic routing to services
+- Each Gateway gets its own isolated data plane deployment
+
+```mermaid
+graph TB
+    A[Client Request] --> B[Gateway Service]
+    B --> C[Data Plane Pod]
+    C --> D[NGINX Container]
+    C --> E[NGINX Agent]
+    F[Control Plane Controller] -->|Watches| G[Gateway API Resources]
+    F -->|Creates Config| E
+    F -->|Provisions| C
+    D --> H[Backend Services]
+```
+---
+### Design-remove
 ---
 
 Nginx Gateway Fabric(NGF) consists of two types of controllers.
