@@ -215,7 +215,8 @@ Expected output:
 NAME                                        READY   STATUS    RESTARTS   AGE
 ngf-nginx-gateway-fabric-869fb69457-cjl2c   1/1     Running   0          6m30s
 ```
-<mark>This is the Control Plane POD we discussed earlier. At this stage, it is "watching" for the Gateway API resources! We defined the resources by installing the CRDs in the previous stage, but we have not created any resources (i.e., Gateway, HTTPRoute etc.), yet!
+<mark>This is the Control Plane POD we discussed earlier. At this stage, it is "watching" or looking for the Gateway API resources! We defined the resources by installing the CRDs in the previous stage, but we have not created any resources (i.e., Gateway, HTTPRoute etc.), yet! 
+We will create those once we have some "backend" apps to route to! 
 
 ---
 
