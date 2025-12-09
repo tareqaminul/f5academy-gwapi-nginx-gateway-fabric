@@ -1,39 +1,64 @@
-# NGF-master
+# NGINX Gateway Fabric Lab Guide
 
-In this Lab, you will learn about the Kubernetes Gateway API and it's setup and configuration in a Kubernetes cluster.
+A comprehensive hands-on guide to understanding and implementing the Kubernetes Gateway API with NGINX Gateway Fabric.
 
-By the end of this guide, you will have learned:  
-    ✔ What the Kubernetes Gateway API is  
-    ✔ Key concepts of the Gateway API  
-    ✔ Practical implementation of Gateway API controllers with NGINX Gateway Fabric  
-    ✔ How to use Gateway API objects like GatewayClass, Gateway, HTTPRoute etc.
-    ✔ How to implement path-based routing using the Gateway API and more.  
+[![NGINX Gateway Fabric](https://img.shields.io/badge/NGINX-Gateway%20Fabric-009639?logo=nginx)](https://github.com/nginx/nginx-gateway-fabric)
+[![Gateway API](https://img.shields.io/badge/Gateway%20API-Compatible-326CE5?logo=kubernetes)](https://gateway-api.sigs.k8s.io/)
+[![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](LICENSE)
 
-Let's get started!
+## 📚 What You'll Learn
 
-## Introduction
-### The Gateway API is a paradigm shift in Kubernetes traffic management.
-Kubernetes has become the foundation for cloud-native applications. However, managing and routing traffic within clusters remains a challenging issue. The traditional Ingress resource, though helpful in exposing services, has shown limitations. Its loosely defined specifications often cause controller-specific behaviors, complicated annotations, and hinder portability across different environments. These challenges become even more apparent as organizations scale their microservices architectures. Ingress was designed primarily for basic service exposure and routing. While it can be extended with annotations or custom controllers, it lacks first-class support for advanced deployment patterns such as canary or blue-green releases. This forces teams to rely on add-ons or vendor-specific features, which adds complexity and reduces portability. 
+By the end of this guide, you will have mastered:
 
-To overcome the limitations of traditional ingress controllers better, the Kubernetes community has introduced the Gateway API. This is a new, forward-looking, standards-based approach to service networking. Unlike the more rigid Ingress, the Gateway API provides greater flexibility, role-specific functionalities, and a comprehensive set of features. It encourages collaboration among platform engineers, developers, and security teams by supporting advanced capabilities such as TLS offloading, traffic splitting, and smooth integration with service meshes.
-
-<mark>In Ingress controllers, we define routing rules in the Ingress object. The Ingress Controller handles the actual routing. The same concept applies to the Gateway API.
-
-<mark>While the Gateway API provides many objects to manage cluster traffic, the actual routing is done by a Gateway API Controller. This controller is NOT built-in into Kubernetes. We need to install the controller, just like with Ingress case.
-
-> In Ingress controllers, we define routing rules in the Ingress object. The Ingress Controller handles the actual routing. The same concept applies to the Gateway API.
->
-> While the Gateway API provides many objects to manage cluster traffic, the actual routing is done by a Gateway API Controller. This controller is NOT built-in into Kubernetes. We need to install the controller, just like with Ingress case.
-
+- ✅ Understanding the Kubernetes Gateway API and its advantages over Ingress
+- ✅ Key concepts and architecture of the Gateway API
+- ✅ Practical implementation with NGINX Gateway Fabric
+- ✅ Working with Gateway API resources (GatewayClass, Gateway, HTTPRoute)
+- ✅ Implementing path-based routing and traffic management
+- ✅ Real-world deployment patterns and best practices
 
 ---
-Shortcuts: 
-[🚀 Deploy](#installation)
-⚙️ [Config](#test-gateway-use-cases)
-🧪 [Testing](#test-gateway-use-cases)
-[🧵 Monitoring](https://docs.nginx.com/nginx-gateway-fabric/monitoring/)
-[🔧 Troubleshooting](https://docs.nginx.com/nginx-gateway-fabric/troubleshooting/)
-[📘 Docs](docs.nginx.com)
+
+## 📖 Table of Contents
+
+- [Introduction](#introduction)
+- [Architecture](#architecture)
+- [Installation](#installation)
+- [Quick Start](#quick-start)
+- [Testing Use Cases](#testing-use-cases)
+- [FAQ](#faq)
+- [Further Reading](#further-reading)
+
+---
+
+
+## Introduction
+
+### The Gateway API: A Paradigm Shift in Kubernetes Traffic Management
+
+Kubernetes has become the foundation for cloud-native applications, but managing and routing traffic within clusters remains challenging. The traditional Ingress resource, while helpful for exposing services, has shown significant limitations:
+
+- **Loosely defined specifications** leading to controller-specific behaviors
+- **Annotation overload** making configurations complex and unportable
+- **Limited support** for advanced deployment patterns (canary, blue-green releases)
+- **Vendor lock-in** through proprietary extensions and features
+
+### Enter the Gateway API
+
+The Kubernetes Gateway API is a new, standards-based approach to service networking that addresses these limitations by providing:
+
+- **Greater flexibility** with role-oriented design
+- **Comprehensive feature set** for modern traffic management
+- **Built-in support** for TLS offloading, traffic splitting, and service mesh integration
+- **Clear separation** between platform engineers, developers, and security teams
+
+> **💡 Key Concept**: Just like Ingress controllers, the Gateway API separates concerns:
+> 
+> - **Gateway API Resources**: Define routing rules (Gateway, HTTPRoute, etc.)
+> - **Gateway API Controller**: Handles actual traffic routing (not built into Kubernetes)
+> 
+> You must install a Gateway API controller implementation, such as NGINX Gateway Fabric, to process these resources.
+
 ---
 
 ## NGINX Gateway Fabric - F5 NGINX Implementaion of Gateway API
