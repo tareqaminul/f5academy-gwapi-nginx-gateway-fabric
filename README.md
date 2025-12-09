@@ -122,7 +122,7 @@ Learn more: [Gateway Architecture Documentation](https://docs.nginx.com/nginx-ga
 ---
 
 ## Installation
-
+![flow](./images/test-gif.gif)
 ### Prerequisites
 
 - Kubernetes cluster (1.25+)
@@ -144,9 +144,18 @@ graph LR
 **Steps:**
 
 1. Navigate to [killercoda.com](https://killercoda.com)
-2. Click **Playgrounds**
-3. Select **Kubernetes Playground**
-4. Wait for environment to initialize
+
+2. Login
+![killercoda-logn](./images/00-killercoda-login.png)
+
+4. Click **Playgrounds**
+![killercoda-pgs](./images/01-killercoda-pg.png)
+
+5. Select **Kubernetes Playground**
+![killercoda-pg](./images/02-killercoda-nodes.png)
+
+6. Wait for environment to initialize
+![killercoda-start](./images/03-killercoda-start.png)
 
 ### Explore Your Environment
 
@@ -170,19 +179,23 @@ kubectl get crd
 ### Install Gateway API CRDs
 
 ```bash
-kubectl apply -f https://github.com/kubernetes-sigs/gateway-api/releases/download/v1.0.0/standard-install.yaml
+kubectl kustomize "https://github.com/nginx/nginx-gateway-fabric/config/crd/gateway-api/standard?ref=v2.2.1" | kubectl apply -f -
 ```
+Example Output
+![killercoda-explore](./images/04-killercoda-explore-example.png)
 
 ### Install NGINX Gateway Fabric with Helm
 
 ```bash
-# Add the NGINX Helm repository (optional, for OCI registry we'll pull directly)
-# Install NGINX Gateway Fabric
-helm install ngf oci://ghcr.io/nginx/charts/nginx-gateway-fabric \
-  --create-namespace \
-  -n nginx-gateway \
-  --version 2.2.1
+helm install ngf oci://ghcr.io/nginx/charts/nginx-gateway-fabric --create-namespace -n nginx-gateway
 ```
+<details>
+<summary>📦 What is Helm?</summary>
+
+Helm is the package manager for Kubernetes. It allows you to define, install, and upgrade complex Kubernetes applications using reusable charts. In this guide, we use Helm to install NGINX Gateway Fabric with all necessary resources and configurations.
+
+Learn more: [helm.sh](https://helm.sh)
+</details>
 
 **Verify the installation:**
 
@@ -190,7 +203,7 @@ helm install ngf oci://ghcr.io/nginx/charts/nginx-gateway-fabric \
 # Check Gateway Fabric pods
 kubectl get pods -n nginx-gateway
 
-# Check installed CRDs
+# Check gatewayclass details
 kubectl get gatewayclass
 ```
 
@@ -200,22 +213,18 @@ NAME    CONTROLLER                  ACCEPTED   AGE
 nginx   gateway.nginx.org/nginx-gateway-fabric   True       30s
 ```
 
-<details>
-<summary>📦 What is Helm?</summary>
 
-Helm is the package manager for Kubernetes. It allows you to define, install, and upgrade complex Kubernetes applications using reusable charts. In this guide, we use Helm to install NGINX Gateway Fabric with all necessary resources and configurations.
-
-Learn more: [helm.sh](https://helm.sh)
-</details>
 
 ---
 
 ## Quick Start
 
 ### Deploy Example Application
+We deployed the NGINX implementation of Gateway API and now, it is ready to process the API requests relevant to configuring L4 and L7 routing in Kubernetes. Pls check [here](https://gateway-api.sigs.k8s.io/concepts/api-overview/), for a quick overview! But before that, we need an example application with multiple routes to which the NGF would route traffic to. 
+![example-app](./images/coffee-tea-routing.jpg)
+The application we are going to use in this guide is a simple cafe application comprised of two services - coffee and tea. The initial objective is to route all traffic to hostname **cafe.example.com** to one of these services based on URI Parameters **/coffee** OR **/tea** - also known as **Path-Based Routing**.
 
-We'll deploy a simple cafe application with two services (coffee and tea) to demonstrate path-based routing.
-
+Let us deploy the example application: 
 ```yaml
 kubectl apply -f - <<EOF
 apiVersion: apps/v1
@@ -422,7 +431,7 @@ sequenceDiagram
 
 ---
 ---
-## Installation -REMOVE
+## REMOVE - Installation - REMOVE
 ![flow](./images/test-gif.gif)
 **brief-the-flow**
 We will make use of killercoda environment. 
