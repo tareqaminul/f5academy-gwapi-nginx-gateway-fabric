@@ -23,7 +23,6 @@ By the end of this guide, you will have mastered:
 - [Introduction](#introduction)
 - [Architecture](#architecture)
 - [Installation](#installation)
-- [Quick Start](#quick-start)
 - [Testing Use Cases](#testing-use-cases)
 - [FAQ](#faq)
 - [Further Reading](#further-reading)
@@ -170,12 +169,12 @@ kubectl get pods -A
 # Check API resources
 kubectl api-resources | grep gateway
 
-# View installed CRDs
-kubectl get crd
 ```
+At this stage, we should not have the gateway-related API Resources, while other native or installed ones should be present.
+Example Output
+![killercoda-explore](./images/04-killercoda-explore-example.png)
 
 ### Install Gateway API CRDs
-
 ```bash
 kubectl kustomize "https://github.com/nginx/nginx-gateway-fabric/config/crd/gateway-api/standard?ref=v2.2.1" | kubectl apply -f -
 ```
@@ -183,13 +182,13 @@ kubectl kustomize "https://github.com/nginx/nginx-gateway-fabric/config/crd/gate
 <summary>📦 CRDs - Custom Resource Definitions</summary>
 
 Custom Resource Definitions (CRDs) let you add new API types to Kubernetes so the cluster can understand and manage new objects just like built-in ones.
-Gateway API is built with CRDs. That comes with a number of significant benefits, notably that each release of Gateway API supports the 5 more recent minor versions of Kubernetes. That means you likely won't need to upgrade your Kubernetes cluster to get the latest version of this API.
+Gateway API is implemented using CRDs, which brings major advantages—most importantly, each Gateway API release works with the 5 latest Kubernetes minor versions. As a result, you usually don’t need to upgrade your Kubernetes cluster to use the newest Gateway API.
 </details>
 
-Example Output
-![killercoda-explore](./images/04-killercoda-explore-example.png)
-### Install NGINX Gateway Fabric with Helm
+Let us **verify** gateway CRDs by **re-running** the command: kubectl api-resources
+![verify-crds-again](./images/05-killercoda-verify-crds-again.png)
 
+### Install NGINX Gateway Fabric with Helm
 ```bash
 helm install ngf oci://ghcr.io/nginx/charts/nginx-gateway-fabric --create-namespace -n nginx-gateway
 ```
@@ -202,7 +201,6 @@ Learn more: [helm.sh](https://helm.sh)
 </details>
 
 **Verify the installation:**
-
 ```bash
 # Check Gateway Fabric pods
 kubectl get pods -n nginx-gateway
@@ -220,8 +218,6 @@ nginx   gateway.nginx.org/nginx-gateway-fabric   True       30s
 
 
 ---
-
-## Quick Start
 
 ### Deploy Example Application
 We deployed the NGINX implementation of Gateway API and now, it is ready to process the API requests relevant to configuring L4 and L7 routing in Kubernetes. Pls check [here](https://gateway-api.sigs.k8s.io/concepts/api-overview/), for a quick overview! But before that, we need an example application with multiple routes to which the NGF would route traffic to. 
