@@ -512,14 +512,15 @@ sequenceDiagram
     Gateway-->>Client: 200 OK
 ```
 ---
-<mark>This is Installation and Basic Testing. 
+<mark>This is Installation and Basic Testing.   
+
 <mark> Coming UP:  
 
 
-[Basic Use Cases](https://github.com/nginx/nginx-gateway-fabric/tree/main/examples) and [how-to-Guides](https://docs.nginx.com/nginx-gateway-fabric/traffic-management/)  
+1. [Basic Use Cases](https://github.com/nginx/nginx-gateway-fabric/tree/main/examples) and [how-to-Guides](https://docs.nginx.com/nginx-gateway-fabric/traffic-management/)    
 
 
-[Advanced Use Cases](https://docs.nginx.com/nginx-gateway-fabric/how-to/) and [AI-Inference-Extensions](https://docs.nginx.com/nginx-gateway-fabric/how-to/gateway-api-inference-extension/)  
+2. [Advanced Use Cases](https://docs.nginx.com/nginx-gateway-fabric/how-to/) and [AI-Inference-Extensions](https://docs.nginx.com/nginx-gateway-fabric/how-to/gateway-api-inference-extension/)    
 
 ---
 # Further Reading
