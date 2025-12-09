@@ -348,13 +348,15 @@ kubectl get gateway cafe-gateway
 kubectl get pods
 ```
 You should see a new pod named `cafe-gateway-nginx-xxxxx`.
+<mark> This is the Data Plane element we discussed earlier! The Control Plane was "waiting" for the Gateway object, which it now found and dynamically deployed this NGINX Proxy POD.  
 
-Let us inspect further into the Gateway object! This is **useful for debugging**, as the elements in the status section contain important indications, like:
+---
+Let us inspect further into the Gateway object we just created! This is **useful for debugging**, as the elements in the status section contain important indications, like:
 
-<mark>Did the controller accept this Gateway?
-<mark>Is it fully programmed into the underlying data plane (NGINX in this case)?
-<mark>Are the listeners valid and ready?
-<mark>Are any routes attached yet?
+<mark>Did the controller accept this Gateway?  
+<mark>Is it fully programmed into the underlying data plane (NGINX in this case)?  
+<mark>Are the listeners valid and ready?  
+<mark>Are any routes attached yet?  
 <mark>Are references valid and conflict-free?
 
 ```bash
