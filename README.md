@@ -514,8 +514,8 @@ sequenceDiagram
 ---
 <mark>This is Installation and Basic Testing. 
 <mark> Coming UP:  
-Basic Use Cases - based on [-](https://github.com/nginx/nginx-gateway-fabric/tree/main/examples) and [-](https://docs.nginx.com/nginx-gateway-fabric/traffic-management/)
-Advanced Use Cases - based on [-](https://docs.nginx.com/nginx-gateway-fabric/how-to/) and [-](https://docs.nginx.com/nginx-gateway-fabric/how-to/gateway-api-inference-extension/)
+Basic Use Cases - based on [-](https://github.com/nginx/nginx-gateway-fabric/tree/main/examples) and [-](https://docs.nginx.com/nginx-gateway-fabric/traffic-management/)  
+Advanced Use Cases - based on [-](https://docs.nginx.com/nginx-gateway-fabric/how-to/) and [-](https://docs.nginx.com/nginx-gateway-fabric/how-to/gateway-api-inference-extension/)  
 ---
 # Further Reading
 ---
