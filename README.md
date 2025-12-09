@@ -110,53 +110,323 @@ graph TB
     F -->|Provisions| C
     D --> H[Backend Services]
 ```
-----------------
+**NGF Workflow:**
+
+1. Control plane watches Kubernetes API for Gateway resources
+2. When a Gateway is created, control plane provisions a new data plane deployment
+3. Control plane generates NGINX configuration and pushes to NGINX Agent
+4. Data plane routes traffic according to HTTPRoute and other routing rules
+
+Learn more: [Gateway Architecture Documentation](https://docs.nginx.com/nginx-gateway-fabric/overview/gateway-architecture/)
 ---
-### Design-remove
 ---
 
-Nginx Gateway Fabric(NGF) consists of two types of controllers.
-- **Control Plane Controller**
-- **Data Plane Controller**
-
-It separates the control plane and data plane into two distinct deployments. The control plane interacts with the Kubernetes API, watching for Gateway API resources.
-
-**Control Plane Controller**
-- When we install the Nginx Gateway Fabric on Kubernetes, the Control plane controller will be deployed.
-
-- The job of this controller is to watch its custom resources, such as Gateway, HTTPRoute, TLSRoute, etc.
-
-- When we create a custom resource, the control plane controller will get the required resources and create the object.
-
-**Date Plane Controller**
-- When we create a Gateway Custom Resource, the control plane controller will dynamically create a Data plane controller with the given information on the Gateway.
-
-- The data plane controller actually routes the traffic to the specific services.
-
-![diagram](./images/picture1.png)
-
-When a new Gateway resource is provisioned, it dynamically creates and manages a corresponding NGINX data plane Deployment and Service.
-
-Each NGINX data plane pod consists of an NGINX container integrated with NGINX Agent. The control plane translates Gateway API resources into NGINX configurations and sends these configurations to the agent to ensure consistent traffic management.
-
-This design enables centralized management of multiple Gateways while ensuring that each NGINX instance stays aligned with the cluster’s current configuration.
-
-
-For more information, see the [Gateway architecture](https://docs.nginx.com/nginx-gateway-fabric/overview/gateway-architecture/) topic.
-
-### How Is NGINX Gateway Fabric Different from NGINX Ingress Controller?
----
-F5 NGINX Ingress Controller implements the Ingress API specification to deliver core functionality, using custom annotations, CRDs, and NGINX Ingress resources for expanded capabilities. NGINX Gateway Fabric conforms to the Gateway API specification, simplifies implementation, and aligns better with the organizational roles that deal with service networking configurations.
-
-The following table compares the key high‑level features of the standard Ingress API, NGINX Ingress Controller with CRDs, and Gateway API to illustrate their capabilities.
-
-![compare-apis](./images/compare-apis-ingress-gwapi.png)
-
----
 ## Installation
-![flow](./images/test-gif.gif)
 
+### Prerequisites
+
+- Kubernetes cluster (1.25+)
+- `kubectl` configured to access your cluster
+- `helm` (v3.0+) installed
+
+### Environment Setup
+
+This guide uses [Killercoda](https://killercoda.com) for a free, interactive Kubernetes playground.
+
+```mermaid
+graph LR
+    A[Login to Killercoda] --> B[Choose Kubernetes Playground]
+    B --> C[Explore Environment]
+    C --> D[Deploy NGINX Gateway Fabric]
+    D --> E[Test Use Cases]
+```
+
+**Steps:**
+
+1. Navigate to [killercoda.com](https://killercoda.com)
+2. Click **Playgrounds**
+3. Select **Kubernetes Playground**
+4. Wait for environment to initialize
+
+### Explore Your Environment
+
+```bash
+# Check cluster nodes
+kubectl get nodes -o wide
+
+# List namespaces
+kubectl get ns
+
+# View running pods
+kubectl get pods -A
+
+# Check API resources
+kubectl api-resources | grep gateway
+
+# View installed CRDs
+kubectl get crd
+```
+
+### Install Gateway API CRDs
+
+```bash
+kubectl apply -f https://github.com/kubernetes-sigs/gateway-api/releases/download/v1.0.0/standard-install.yaml
+```
+
+### Install NGINX Gateway Fabric with Helm
+
+```bash
+# Add the NGINX Helm repository (optional, for OCI registry we'll pull directly)
+# Install NGINX Gateway Fabric
+helm install ngf oci://ghcr.io/nginx/charts/nginx-gateway-fabric \
+  --create-namespace \
+  -n nginx-gateway \
+  --version 2.2.1
+```
+
+**Verify the installation:**
+
+```bash
+# Check Gateway Fabric pods
+kubectl get pods -n nginx-gateway
+
+# Check installed CRDs
+kubectl get gatewayclass
+```
+
+Expected output:
+```
+NAME    CONTROLLER                  ACCEPTED   AGE
+nginx   gateway.nginx.org/nginx-gateway-fabric   True       30s
+```
+
+<details>
+<summary>📦 What is Helm?</summary>
+
+Helm is the package manager for Kubernetes. It allows you to define, install, and upgrade complex Kubernetes applications using reusable charts. In this guide, we use Helm to install NGINX Gateway Fabric with all necessary resources and configurations.
+
+Learn more: [helm.sh](https://helm.sh)
+</details>
+
+---
+
+## Quick Start
+
+### Deploy Example Application
+
+We'll deploy a simple cafe application with two services (coffee and tea) to demonstrate path-based routing.
+
+```yaml
+kubectl apply -f - <<EOF
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: coffee
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: coffee
+  template:
+    metadata:
+      labels:
+        app: coffee
+    spec:
+      containers:
+      - name: coffee
+        image: nginxdemos/nginx-hello:plain-text
+        ports:
+        - containerPort: 8080
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: coffee
+spec:
+  ports:
+  - port: 80
+    targetPort: 8080
+    protocol: TCP
+    name: http
+  selector:
+    app: coffee
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: tea
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: tea
+  template:
+    metadata:
+      labels:
+        app: tea
+    spec:
+      containers:
+      - name: tea
+        image: nginxdemos/nginx-hello:plain-text
+        ports:
+        - containerPort: 8080
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: tea
+spec:
+  ports:
+  - port: 80
+    targetPort: 8080
+    protocol: TCP
+    name: http
+  selector:
+    app: tea
+EOF
+```
+
+**Verify deployment:**
+
+```bash
+kubectl get pods,svc
+```
+
+Expected output:
+```
+NAME                          READY   STATUS    RESTARTS   AGE
+pod/coffee-5b9c74f9d9-xxxxx   1/1     Running   0          30s
+pod/tea-859766c68c-xxxxx      1/1     Running   0          30s
+
+NAME                 TYPE        CLUSTER-IP      EXTERNAL-IP   PORT(S)   AGE
+service/coffee       ClusterIP   10.100.139.53   <none>        80/TCP    30s
+service/tea          ClusterIP   10.103.46.146   <none>        80/TCP    30s
+```
+
+---
+
+## Testing Use Cases
+
+### Use Case 1: Basic HTTP Routing
+
+Create a Gateway and HTTPRoute to expose the cafe application:
+
+```yaml
+kubectl apply -f - <<EOF
+apiVersion: gateway.networking.k8s.io/v1
+kind: Gateway
+metadata:
+  name: cafe-gateway
+spec:
+  gatewayClassName: nginx
+  listeners:
+  - name: http
+    port: 80
+    protocol: HTTP
+    hostname: "*.example.com"
+EOF
+```
+
+**Verify Gateway provisioning:**
+
+```bash
+# Check Gateway status
+kubectl get gateway cafe-gateway
+
+# Verify data plane pod was created
+kubectl get pods
+```
+
+You should see a new pod named `cafe-gateway-nginx-xxxxx`.
+
+### Use Case 2: Path-Based Routing
+
+Route traffic to different services based on URL paths:
+
+```yaml
+kubectl apply -f - <<EOF
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  name: cafe-routes
+spec:
+  parentRefs:
+  - name: cafe-gateway
+  hostnames:
+  - "cafe.example.com"
+  rules:
+  - matches:
+    - path:
+        type: PathPrefix
+        value: /coffee
+    backendRefs:
+    - name: coffee
+      port: 80
+  - matches:
+    - path:
+        type: PathPrefix
+        value: /tea
+    backendRefs:
+    - name: tea
+      port: 80
+EOF
+```
+
+**Test the routing:**
+
+```bash
+# Get the Gateway service external IP or NodePort
+GATEWAY_IP=$(kubectl get svc cafe-gateway-nginx -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
+
+# If using NodePort (Killercoda)
+GATEWAY_PORT=$(kubectl get svc cafe-gateway-nginx -o jsonpath='{.spec.ports[0].nodePort}')
+
+# Test coffee endpoint
+curl http://localhost:${GATEWAY_PORT}/coffee -H "Host: cafe.example.com"
+
+# Test tea endpoint
+curl http://localhost:${GATEWAY_PORT}/tea -H "Host: cafe.example.com"
+```
+
+Expected response:
+```
+Server address: 10.244.0.5:8080
+Server name: coffee-5b9c74f9d9-xxxxx
+...
+```
+
+### Traffic Flow Diagram
+
+```mermaid
+sequenceDiagram
+    participant Client
+    participant Gateway as Gateway Service
+    participant NGINX as NGINX Data Plane
+    participant Coffee as Coffee Service
+    participant Tea as Tea Service
+    
+    Client->>Gateway: GET /coffee (Host: cafe.example.com)
+    Gateway->>NGINX: Forward request
+    NGINX->>Coffee: Route to coffee backend
+    Coffee-->>NGINX: Response
+    NGINX-->>Gateway: Response
+    Gateway-->>Client: 200 OK
+    
+    Client->>Gateway: GET /tea (Host: cafe.example.com)
+    Gateway->>NGINX: Forward request
+    NGINX->>Tea: Route to tea backend
+    Tea-->>NGINX: Response
+    NGINX-->>Gateway: Response
+    Gateway-->>Client: 200 OK
+```
+
+---
+---
+## Installation -REMOVE
+![flow](./images/test-gif.gif)
+**brief-the-flow**
 We will make use of killercoda environment. 
+
 ```mermaid
 graph TD
   A[Killercoda login] --> B[Choose a Kubernetes Playground]
@@ -165,14 +435,6 @@ graph TD
   D --> E[Test Gateway API Use Cases]
 ```
 
-
-```mermaid
-sequenceDiagram
-  Client->>NGINX: Request
-  NGINX->>Backend: Proxy
-  Backend-->>NGINX: Response
-  NGINX-->>Client: 200 OK
-```  
 Login to killercoda.com
 ![killercoda-logn](./images/00-killercoda-login.png)
 
@@ -365,6 +627,28 @@ curl  http://localhost:32659/coffee -H "Host: cafe.example.com"
 [Modern Deployment and Security Strategies for Kubernetes with NGINX Gateway Fabric](https://community.f5.com/kb/technicalarticles/modern-deployment-and-security-strategies-for-kubernetes-with-nginx-gateway-fabr/343305)
 
 ## faq
+### How Is NGINX Gateway Fabric Different from NGINX Ingress Controller?
+F5 NGINX Ingress Controller implements the Ingress API specification to deliver core functionality, using custom annotations, CRDs, and NGINX Ingress resources for expanded capabilities. NGINX Gateway Fabric conforms to the Gateway API specification, simplifies implementation, and aligns better with the organizational roles that deal with service networking configurations.
+
+The following table compares the key high‑level features of the standard Ingress API, NGINX Ingress Controller with CRDs, and Gateway API to illustrate their capabilities.
+### NGINX Gateway Fabric vs NGINX Ingress Controller
+
+NGINX Gateway Fabric is built on the Gateway API specification, while NGINX Ingress Controller implements the Ingress API. Here's how they compare:
+
+| Feature | Ingress API | NGINX Ingress + CRDs | Gateway API |
+|---------|-------------|---------------------|-------------|
+| **Role-oriented design** | ❌ | ⚠️ Partial | ✅ |
+| **Traffic splitting** | ❌ | ✅ (via annotations) | ✅ (native) |
+| **Cross-namespace routing** | ❌ | ❌ | ✅ |
+| **Header-based matching** | ❌ | ✅ (via snippets) | ✅ (native) |
+| **Weighted backend services** | ❌ | ✅ (custom CRD) | ✅ (native) |
+| **Multiple protocols** | ⚠️ Limited | ✅ | ✅ |
+| **Portable configuration** | ⚠️ Limited | ❌ | ✅ |
+
+**Note**: NGINX Ingress Controller remains a mature, production-ready solution and is not being replaced. Choose based on your specific use case and requirements.
+
+![compare-apis](./images/compare-apis-ingress-gwapi.png)
+
 ### Is NGINX Gateway Fabric Going to Replace NGINX Ingress Controller?
 NGINX Gateway Fabric is not replacing NGINX Ingress Controller. Rather, it is an emerging technology based on the first generally available release of the Gateway API specification. NGINX Ingress Controller is a mature, stable technology used in production by many customers. It can be tailored for specific use cases through custom annotations and CRDs. For example, to implement the role‑based approach, NGINX Ingress Controller uses NGINX Ingress resources, including VirtualServer, VirtualServerRoute, TransportServer, and Policy.
 
