@@ -347,8 +347,20 @@ kubectl get gateway cafe-gateway
 # Verify data plane pod was created
 kubectl get pods
 ```
-
 You should see a new pod named `cafe-gateway-nginx-xxxxx`.
+
+Let us inspect further into the Gateway object! This is useful for debugging, as the elements in the status section contain important indications, like:
+
+Did the controller accept this Gateway?
+
+Is it fully programmed into the underlying data plane (NGINX in this case)?
+
+Are the listeners valid and ready?
+
+Are any routes attached yet?
+
+Are references valid and conflict-free?
+
 ```bash
 controlplane:~$ kubectl get gateway cafe-gateway
 NAME           CLASS   ADDRESS   PROGRAMMED   AGE
