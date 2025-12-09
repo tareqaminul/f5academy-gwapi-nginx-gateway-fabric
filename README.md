@@ -15,7 +15,6 @@ By the end of this guide, you will have mastered:
 - ✅ Practical implementation with NGINX Gateway Fabric
 - ✅ Working with Gateway API resources (GatewayClass, Gateway, HTTPRoute)
 - ✅ Implementing path-based routing and traffic management
-- ✅ Real-world deployment patterns and best practices
 
 ---
 
@@ -83,7 +82,7 @@ For a list of supported Gateway API resources and features, see the [Gateway API
 
 For a complete list of supported resources and features, see the [Gateway API Compatibility](https://docs.nginx.com/nginx-gateway-fabric/overview/gateway-api-compatibility/) documentation.
 
-### Design Architecture
+### Design
 
 NGINX Gateway Fabric uses a split-plane architecture with two controller types:
 
@@ -119,7 +118,6 @@ graph TB
 
 Learn more: [Gateway Architecture Documentation](https://docs.nginx.com/nginx-gateway-fabric/overview/gateway-architecture/)
 ---
----
 
 ## Installation
 ![flow](./images/test-gif.gif)
@@ -128,9 +126,9 @@ Learn more: [Gateway Architecture Documentation](https://docs.nginx.com/nginx-ga
 - Kubernetes cluster (1.25+)
 - `kubectl` configured to access your cluster
 - `helm` (v3.0+) installed
+These pre-requisites are already set up in the Environment.
 
 ### Environment Setup
-
 This guide uses [Killercoda](https://killercoda.com) for a free, interactive Kubernetes playground.
 
 ```mermaid
@@ -145,13 +143,13 @@ graph LR
 
 1. Navigate to [killercoda.com](https://killercoda.com)
 
-2. Login
+2. Login using your ID provider (Google Or GitHub) 
 ![killercoda-logn](./images/00-killercoda-login.png)
 
 4. Click **Playgrounds**
 ![killercoda-pgs](./images/01-killercoda-pg.png)
 
-5. Select **Kubernetes Playground**
+5. Select a **Kubernetes Playground** (e.g., One Node 2GB)
 ![killercoda-pg](./images/02-killercoda-nodes.png)
 
 6. Wait for environment to initialize
@@ -181,9 +179,15 @@ kubectl get crd
 ```bash
 kubectl kustomize "https://github.com/nginx/nginx-gateway-fabric/config/crd/gateway-api/standard?ref=v2.2.1" | kubectl apply -f -
 ```
+<details>
+<summary>📦 CRDs - Custom Resource Definitions
+Custom Resource Definitions (CRDs) let you add new API types to Kubernetes so the cluster can understand and manage new objects just like built-in ones.
+
+Gateway API is built with CRDs. That comes with a number of significant benefits, notably that each release of Gateway API supports the 5 more recent minor versions of Kubernetes. That means you likely won't need to upgrade your Kubernetes cluster to get the latest version of this API.
+</details>
+
 Example Output
 ![killercoda-explore](./images/04-killercoda-explore-example.png)
-
 ### Install NGINX Gateway Fabric with Helm
 
 ```bash
