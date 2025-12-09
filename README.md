@@ -215,15 +215,15 @@ Expected output:
 NAME                                        READY   STATUS    RESTARTS   AGE
 ngf-nginx-gateway-fabric-869fb69457-cjl2c   1/1     Running   0          6m30s
 ```
-<mark>This is the Control Plane POD we discussed earlier. At this stage, it is "watching" or looking for the Gateway API resources! We defined the resources by installing the CRDs in the previous stage, but we have not created any resources (i.e., Gateway, HTTPRoute etc.), yet!
+<mark>This is the Control Plane POD element of the NGF we discussed earlier. At this stage, it is "watching" or looking for the Gateway API resources! We defined the resources by installing the CRDs in the previous stage, but we have not created any resources (i.e., Gateway, HTTPRoute etc.), yet!
 
-We will create those once we have some "backend" apps to route to! 
+We will create those resources, once we have some "backend" apps to route to! 
 
 ---
-
 ### Deploy Example Application
-We deployed the NGINX implementation of Gateway API and now, it is ready to process the API requests relevant to configuring L4 and L7 routing in Kubernetes. Pls check [here](https://gateway-api.sigs.k8s.io/concepts/api-overview/), for a quick overview! But before that, we need an example application with multiple routes to which the NGF would route traffic to. 
+We deployed the NGINX implementation of Gateway API and now, it is ready to process the API requests relevant to configuring L4 and L7 routing in Kubernetes. Pls check [here](https://gateway-api.sigs.k8s.io/concepts/api-overview/), for a quick overview of these APIs! But before that, we need an example application with multiple routes to which the NGF would route traffic to. 
 ![example-app](./images/coffee-tea-routing.jpg)
+
 The application we are going to use in this guide is a simple cafe application comprised of two services - coffee and tea. The initial objective is to route all traffic to hostname **cafe.example.com** to one of these services based on URI Parameters **/coffee** OR **/tea** - also known as **Path-Based Routing**.
 
 Let us deploy the example application: 
@@ -349,7 +349,81 @@ kubectl get pods
 ```
 
 You should see a new pod named `cafe-gateway-nginx-xxxxx`.
-
+```bash
+controlplane:~$ kubectl get gateway cafe-gateway
+NAME           CLASS   ADDRESS   PROGRAMMED   AGE
+cafe-gateway   nginx             True         13s
+controlplane:~$ kubectl describe gateway cafe-gateway
+Name:         cafe-gateway
+Namespace:    default
+Labels:       <none>
+Annotations:  <none>
+API Version:  gateway.networking.k8s.io/v1
+Kind:         Gateway
+Metadata:
+  Creation Timestamp:  2025-12-09T17:00:01Z
+  Generation:          1
+  Resource Version:    9376
+  UID:                 33802101-929b-412c-b229-e657f4f0d4b7
+Spec:
+  Gateway Class Name:  nginx
+  Listeners:
+    Allowed Routes:
+      Namespaces:
+        From:  Same
+    Hostname:  *.example.com
+    Name:      http
+    Port:      80
+    Protocol:  HTTP
+Status:
+  Conditions:
+    Last Transition Time:  2025-12-09T17:00:01Z
+    Message:               Gateway is accepted
+    Observed Generation:   1
+    Reason:                Accepted
+    Status:                True
+    Type:                  Accepted
+    Last Transition Time:  2025-12-09T17:00:01Z
+    Message:               Gateway is programmed
+    Observed Generation:   1
+    Reason:                Programmed
+    Status:                True
+    Type:                  Programmed
+  Listeners:
+    Attached Routes:  0
+    Conditions:
+      Last Transition Time:  2025-12-09T17:00:01Z
+      Message:               Listener is accepted
+      Observed Generation:   1
+      Reason:                Accepted
+      Status:                True
+      Type:                  Accepted
+      Last Transition Time:  2025-12-09T17:00:01Z
+      Message:               Listener is programmed
+      Observed Generation:   1
+      Reason:                Programmed
+      Status:                True
+      Type:                  Programmed
+      Last Transition Time:  2025-12-09T17:00:01Z
+      Message:               All references are resolved
+      Observed Generation:   1
+      Reason:                ResolvedRefs
+      Status:                True
+      Type:                  ResolvedRefs
+      Last Transition Time:  2025-12-09T17:00:01Z
+      Message:               No conflicts
+      Observed Generation:   1
+      Reason:                NoConflicts
+      Status:                False
+      Type:                  Conflicted
+    Name:                    http
+    Supported Kinds:
+      Group:  gateway.networking.k8s.io
+      Kind:   HTTPRoute
+      Group:  gateway.networking.k8s.io
+      Kind:   GRPCRoute
+Events:       <none>
+```
 ### Use Case 2: Path-Based Routing
 
 Route traffic to different services based on URL paths:
