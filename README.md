@@ -470,10 +470,7 @@ EOF
 **Test the routing:**
 
 ```bash
-# Get the Gateway service external IP or NodePort
-GATEWAY_IP=$(kubectl get svc cafe-gateway-nginx -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
-
-# If using NodePort (Killercoda)
+# Using NodePort (Killercoda)
 GATEWAY_PORT=$(kubectl get svc cafe-gateway-nginx -o jsonpath='{.spec.ports[0].nodePort}')
 
 # Test coffee endpoint
