@@ -180,7 +180,7 @@ kubectl get crd
 kubectl kustomize "https://github.com/nginx/nginx-gateway-fabric/config/crd/gateway-api/standard?ref=v2.2.1" | kubectl apply -f -
 ```
 <details>
-<summary>📦 CRDs - Custom Resource Definitions
+<summary>📦 CRDs - Custom Resource Definitions</summary>
 
 Custom Resource Definitions (CRDs) let you add new API types to Kubernetes so the cluster can understand and manage new objects just like built-in ones.
 Gateway API is built with CRDs. That comes with a number of significant benefits, notably that each release of Gateway API supports the 5 more recent minor versions of Kubernetes. That means you likely won't need to upgrade your Kubernetes cluster to get the latest version of this API.
