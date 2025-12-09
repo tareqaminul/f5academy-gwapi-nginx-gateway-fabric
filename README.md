@@ -186,6 +186,7 @@ Gateway API is implemented using CRDs, which brings major advantages—most impo
 </details>
 
 Let us **verify** gateway CRDs by **re-running** the command: kubectl api-resources
+Output should look like:
 ![verify-crds-again](./images/05-killercoda-verify-crds-again.png)
 
 ### Install NGINX Gateway Fabric with Helm
@@ -202,21 +203,19 @@ Learn more: [helm.sh](https://helm.sh)
 
 **Verify the installation:**
 ```bash
-# Check Gateway Fabric pods
-kubectl get pods -n nginx-gateway
-
 # Check gatewayclass details
 kubectl get gatewayclass
+
+# Check Gateway Fabric pods
+kubectl get pods -n nginx-gateway
 ```
 
 Expected output:
 ```
-NAME    CONTROLLER                  ACCEPTED   AGE
-nginx   gateway.nginx.org/nginx-gateway-fabric   True       30s
+NAME                                        READY   STATUS    RESTARTS   AGE
+ngf-nginx-gateway-fabric-869fb69457-cjl2c   1/1     Running   0          6m30s
 ```
-
-
-
+This is the Control Plane POD we discussed earlier. At this stage, it is "watching" for the Gateway API resources! We defined the resources by installing the CRDs in the previous stage, but we have not created any resources (i.e., Gateway, HTTPRoute etc.), yet!
 ---
 
 ### Deploy Example Application
