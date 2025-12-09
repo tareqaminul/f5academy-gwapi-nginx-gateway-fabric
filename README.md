@@ -516,10 +516,10 @@ sequenceDiagram
 <mark> Coming UP:  
 
 
-[Basic Use Cases](https://github.com/nginx/nginx-gateway-fabric/tree/main/examples) and [](https://docs.nginx.com/nginx-gateway-fabric/traffic-management/)  
+[Basic Use Cases](https://github.com/nginx/nginx-gateway-fabric/tree/main/examples) and [how-to-Guides](https://docs.nginx.com/nginx-gateway-fabric/traffic-management/)  
 
 
-[Advanced Use Cases](https://docs.nginx.com/nginx-gateway-fabric/how-to/) and [](https://docs.nginx.com/nginx-gateway-fabric/how-to/gateway-api-inference-extension/)  
+[Advanced Use Cases](https://docs.nginx.com/nginx-gateway-fabric/how-to/) and [AI-Inference-Extensions](https://docs.nginx.com/nginx-gateway-fabric/how-to/gateway-api-inference-extension/)  
 
 ---
 # Further Reading
