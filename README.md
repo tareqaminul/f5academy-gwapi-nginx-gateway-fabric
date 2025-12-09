@@ -190,7 +190,7 @@ Example Output
 helm install ngf oci://ghcr.io/nginx/charts/nginx-gateway-fabric --create-namespace -n nginx-gateway
 ```
 <details>
-<summary>📦 What is Helm?</summary>
+<summary>📦 What the HELM?</summary>
 
 Helm is the package manager for Kubernetes. It allows you to define, install, and upgrade complex Kubernetes applications using reusable charts. In this guide, we use Helm to install NGINX Gateway Fabric with all necessary resources and configurations.
 
