@@ -154,6 +154,8 @@ The following table compares the key high‑level features of the standard Ingre
 
 ---
 ## Installation
+![flow](./images/test-gif.gif)
+
 We will make use of killercoda environment. 
 ```mermaid
 graph TD
