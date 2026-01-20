@@ -176,7 +176,7 @@ Example Output
 
 ### Install Gateway API CRDs
 ```bash
-kubectl kustomize "https://github.com/nginx/nginx-gateway-fabric/config/crd/gateway-api/standard?ref=v2.2.1" | kubectl apply -f -
+kubectl kustomize "https://github.com/nginx/nginx-gateway-fabric/config/crd/gateway-api/standard?ref=v2.3.0" | kubectl apply -f -
 ```
 <details>
 <summary>📦 CRDs - Custom Resource Definitions</summary>
