@@ -125,7 +125,8 @@ Learn more: [Gateway Architecture Documentation](https://docs.nginx.com/nginx-ga
 - Kubernetes cluster (1.25+)
 - `kubectl` configured to access your cluster
 - `helm` (v3.0+) installed
-These pre-requisites are already set up in the Environment.
+
+(These pre-requisites are already met in the Environment. We do NOT need to re-install!)
 
 ### Environment Setup
 This guide uses [Killercoda](https://killercoda.com) for a free, interactive Kubernetes playground.
