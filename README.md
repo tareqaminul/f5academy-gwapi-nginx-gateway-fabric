@@ -551,7 +551,7 @@ F5 NGINX gives you **two paths** forward, and the right choice depends on your t
 
 **Option 2:** The forward-looking option - embracing Gateway API! As we explored in this guide, NGINX Gateway Fabric (NGF) is F5's native and comprehensive implementation of the Kubernetes Gateway API.
 
-[!TIP]***So What Should I Choose for Production!*** If you need to migrate quickly and can't afford disruption, start with NIC. Once you're stable, you can pilot NGF in dev/staging and plan a gradual transition. If you're building greenfield clusters or ready to invest in the future standard now, NGF is the better long-term bet.
+***So What Should I Choose for Production!*** If you need to migrate quickly and can't afford disruption, start with NIC. Once you're stable, you can pilot NGF in dev/staging and plan a gradual transition. If you're building greenfield clusters or ready to invest in the future standard now, NGF is the better long-term bet.
 ![migration-strategy-for-prod](./images/migration-strategy-nic-ngf.png)
 
 ### <mark>How Is NGINX Gateway Fabric Different from NGINX Ingress Controller?</mark>
@@ -584,6 +584,4 @@ We don’t expect NGINX Gateway Fabric to replace NGINX Ingress Controller any t
 ### <mark>Is NGINX Gateway Fabric an API Gateway?</mark>
 While it’s reasonable to think something named “Gateway API” is an “API gateway”, this is not the case. As discussed in How Do I Choose? API Gateway vs. Ingress Controller vs. Service Mesh, “API gateway” describes a set of use cases that can be implemented via different types of proxies – most commonly an ADC or load balancer and reverse proxy, and increasingly an Ingress controller or service mesh. That said, much like NGINX Ingress Controller, NGINX Gateway Fabric can be used for API gateway use cases, including routing requests to specific microservices, implementing traffic policies, and enabling canary and blue‑green deployments. This release is focused on processing HTTP/HTTPS traffic. More protocols and use cases are planned for future releases.
 
-```text
-We encourage you to submit feedback, feature requests, use cases, and any other suggestions so that we can help you solve your challenges and succeed. Please share your feedback at our GitHub repo.
-```
+> We encourage you to submit feedback, feature requests, use cases, and any other suggestions so that we can help you solve your challenges and succeed. Please share your feedback at our GitHub repo.
