@@ -542,8 +542,8 @@ sequenceDiagram
 [NGINX Gateway Fabric Supports the Gateway API Inference Extension](https://blog.nginx.org/blog/ngf-supports-gateway-api-inference-extension)
 
 ## FAQ
-
-### My Ingress-nginx Controller In PROD Is Going EOL in March 2026, what are my migration options with F5 NGINX?
+---
+### <mark>My Ingress-nginx Controller in PROD is going EOL in March 2026, what are my migration options with F5 NGINX?</mark>
 F5 NGINX gives you **two paths** forward, and the right choice depends on your timeline and how ready you are to embrace the new Gateway API standard.
 ![migration-options-with-f5-nginx](./images/migration-options-f5-nginx.png)
 
@@ -551,7 +551,7 @@ F5 NGINX gives you **two paths** forward, and the right choice depends on your t
 
 **Option 2:** The forward-looking option - embracing Gateway API! As we explored in this guide, NGINX Gateway Fabric (NGF) is F5's native and comprehensive implementation of the Kubernetes Gateway API.
 
-***So What Should I Choose for Production!*** If you need to migrate quickly and can't afford disruption, start with NIC. Once you're stable, you can pilot NGF in dev/staging and plan a gradual transition. If you're building greenfield clusters or ready to invest in the future standard now, NGF is the better long-term bet.
+[!TIP] ***So What Should I Choose for Production!*** If you need to migrate quickly and can't afford disruption, start with NIC. Once you're stable, you can pilot NGF in dev/staging and plan a gradual transition. If you're building greenfield clusters or ready to invest in the future standard now, NGF is the better long-term bet.
 ![migration-strategy-for-prod](./images/migration-strategy-nic-ngf.png)
 
 ### How Is NGINX Gateway Fabric Different from NGINX Ingress Controller?
