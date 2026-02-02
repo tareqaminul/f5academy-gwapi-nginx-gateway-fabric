@@ -544,14 +544,14 @@ sequenceDiagram
 ## FAQ
 
 ### My Ingress-nginx Controller In PROD Is Going EOL in March 2026, what are my migration options with F5 NGINX?
-F5 NGINX gives you two paths forward, and the right choice depends on your timeline and how ready you are to embrace the new Gateway API standard.
+F5 NGINX gives you **two paths** forward, and the right choice depends on your timeline and how ready you are to embrace the new Gateway API standard.
 ![migration-options-with-f5-nginx](./images/migration-options-f5-nginx.png)
 
-Option 1: If you're running the community controller today and need a supported replacement without rewriting all your configs, NGINX Ingress Controller (NIC) is your answer. It's built and maintained by F5's dedicated NGINX team, you get continuous security updates, feature enhancements, and access to enterprise support if you need it. Most of your existing Ingress resources will work as drop-in replacements. For advanced features that currently rely on annotations (rate limiting, authentication, Blue-Green deployments), NIC offers Custom Resources like VirtualServer and VirtualServerRoute. These give you the same capabilities but with proper validation and type safety instead of annotation soup.
+**Option 1:** If you're running the community controller today and need a supported replacement without rewriting all your configs, NGINX Ingress Controller (NIC) is your answer. It's built and maintained by F5's dedicated NGINX team, you get continuous security updates, feature enhancements, and access to enterprise support if you need it. Most of your existing Ingress resources will work as drop-in replacements. For advanced features that currently rely on annotations (rate limiting, authentication, Blue-Green deployments), NIC offers Custom Resources like VirtualServer and VirtualServerRoute. These give you the same capabilities but with proper validation and type safety instead of annotation soup.
 
-Option 2: The forward-looking option - embracing Gateway API! As we explored in this guide, NGINX Gateway Fabric (NGF) is F5's native and comprehensive implementation of the Kubernetes Gateway API.
+**Option 2:** The forward-looking option - embracing Gateway API! As we explored in this guide, NGINX Gateway Fabric (NGF) is F5's native and comprehensive implementation of the Kubernetes Gateway API.
 
-*So what Should I Choose for Production!* If you need to migrate quickly and can't afford disruption, start with NIC. Once you're stable, you can pilot NGF in dev/staging and plan a gradual transition. If you're building greenfield clusters or ready to invest in the future standard now, NGF is the better long-term bet.
+***So What Should I Choose for Production!*** If you need to migrate quickly and can't afford disruption, start with NIC. Once you're stable, you can pilot NGF in dev/staging and plan a gradual transition. If you're building greenfield clusters or ready to invest in the future standard now, NGF is the better long-term bet.
 ![migration-strategy-for-prod](./images/migration-strategy-nic-ngf.png)
 
 ### How Is NGINX Gateway Fabric Different from NGINX Ingress Controller?
