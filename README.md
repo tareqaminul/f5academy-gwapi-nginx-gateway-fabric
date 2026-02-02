@@ -1,4 +1,4 @@
-# NGINX Gateway Fabric Lab Guide
+<img width="468" height="98" alt="image" src="https://github.com/user-attachments/assets/9221f004-2e24-448c-867a-4f80761b0c0d" /><img width="468" height="14" alt="image" src="https://github.com/user-attachments/assets/2b75feb5-1f56-406d-930b-b7d73e09afc6" /># NGINX Gateway Fabric Lab Guide
 
 A comprehensive hands-on guide to understanding and implementing the Kubernetes Gateway API with NGINX Gateway Fabric.
 
@@ -524,7 +524,7 @@ sequenceDiagram
 2. [Advanced Use Cases](https://docs.nginx.com/nginx-gateway-fabric/how-to/) and [AI-Inference-Extensions](https://docs.nginx.com/nginx-gateway-fabric/how-to/gateway-api-inference-extension/)    
 
 ---
-# Further Reading
+# Where to Find More
 ---
 [NGF GitHub Repo](https://github.com/nginx/nginx-gateway-fabric)
 
@@ -535,14 +535,25 @@ sequenceDiagram
 [What’s New in F5 NGINX Gateway Fabric 2.3.0](https://blog.nginx.org/blog/whats-new-in-f5-nginx-gateway-fabric-2-3-0)
 
 [Kubernetes Networking: Moving from Ingress Controller to the Gateway API](https://blog.nginx.org/blog/kubernetes-networking-ingress-controller-to-gateway-api)
-
 [Modern Deployment and Security Strategies for Kubernetes with NGINX Gateway Fabric](https://community.f5.com/kb/technicalarticles/modern-deployment-and-security-strategies-for-kubernetes-with-nginx-gateway-fabr/343305)
 [5 Things to Know About NGINX Gateway Fabric](https://blog.nginx.org/blog/5-things-to-know-about-nginx-gateway-fabric)
 [5 Reasons to Try the Kubernetes Gateway API](https://blog.nginx.org/blog/5-reasons-to-try-the-kubernetes-gateway-api)
 [How NGINX Gateway Fabric Implements Complex Routing Rules](https://blog.nginx.org/blog/how-nginx-gateway-fabric-implements-complex-routing-rules)
 [NGINX Gateway Fabric Supports the Gateway API Inference Extension](https://blog.nginx.org/blog/ngf-supports-gateway-api-inference-extension)
 
-## faq
+## FAQ
+
+### My Ingress-nginx Controller In PROD Is Going EOL in March 2026, what are my migration options with F5 NGINX?
+F5 NGINX gives you two paths forward, and the right choice depends on your timeline and how ready you are to embrace the new Gateway API standard.
+![migration-options-with-f5-nginx](./images/migration-options-f5-nginx.png)
+
+Option 1: If you're running the community controller today and need a supported replacement without rewriting all your configs, NGINX Ingress Controller (NIC) is your answer. It's built and maintained by F5's dedicated NGINX team, you get continuous security updates, feature enhancements, and access to enterprise support if you need it. Most of your existing Ingress resources will work as drop-in replacements. For advanced features that currently rely on annotations (rate limiting, authentication, Blue-Green deployments), NIC offers Custom Resources like VirtualServer and VirtualServerRoute. These give you the same capabilities but with proper validation and type safety instead of annotation soup.
+
+Option 2: The forward-looking option - embracing Gateway API! As we explored in this guide, NGINX Gateway Fabric (NGF) is F5's native and comprehensive implementation of the Kubernetes Gateway API.
+
+*So what Should I Choose for Production!* If you need to migrate quickly and can't afford disruption, start with NIC. Once you're stable, you can pilot NGF in dev/staging and plan a gradual transition. If you're building greenfield clusters or ready to invest in the future standard now, NGF is the better long-term bet.
+![migration-strategy-for-prod](./migration-strategy-nic-ngf.png)
+
 ### How Is NGINX Gateway Fabric Different from NGINX Ingress Controller?
 F5 NGINX Ingress Controller implements the Ingress API specification to deliver core functionality, using custom annotations, CRDs, and NGINX Ingress resources for expanded capabilities. NGINX Gateway Fabric conforms to the Gateway API specification, simplifies implementation, and aligns better with the organizational roles that deal with service networking configurations.
 
