@@ -552,7 +552,7 @@ Option 1: If you're running the community controller today and need a supported 
 Option 2: The forward-looking option - embracing Gateway API! As we explored in this guide, NGINX Gateway Fabric (NGF) is F5's native and comprehensive implementation of the Kubernetes Gateway API.
 
 *So what Should I Choose for Production!* If you need to migrate quickly and can't afford disruption, start with NIC. Once you're stable, you can pilot NGF in dev/staging and plan a gradual transition. If you're building greenfield clusters or ready to invest in the future standard now, NGF is the better long-term bet.
-![migration-strategy-for-prod](./migration-strategy-nic-ngf.png)
+![migration-strategy-for-prod](./images/migration-strategy-nic-ngf.png)
 
 ### How Is NGINX Gateway Fabric Different from NGINX Ingress Controller?
 F5 NGINX Ingress Controller implements the Ingress API specification to deliver core functionality, using custom annotations, CRDs, and NGINX Ingress resources for expanded capabilities. NGINX Gateway Fabric conforms to the Gateway API specification, simplifies implementation, and aligns better with the organizational roles that deal with service networking configurations.
