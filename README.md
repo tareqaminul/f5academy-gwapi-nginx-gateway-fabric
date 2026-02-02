@@ -537,13 +537,9 @@ sequenceDiagram
 [Kubernetes Networking: Moving from Ingress Controller to the Gateway API](https://blog.nginx.org/blog/kubernetes-networking-ingress-controller-to-gateway-api)
 
 [Modern Deployment and Security Strategies for Kubernetes with NGINX Gateway Fabric](https://community.f5.com/kb/technicalarticles/modern-deployment-and-security-strategies-for-kubernetes-with-nginx-gateway-fabr/343305)
-
 [5 Things to Know About NGINX Gateway Fabric](https://blog.nginx.org/blog/5-things-to-know-about-nginx-gateway-fabric)
-
 [5 Reasons to Try the Kubernetes Gateway API](https://blog.nginx.org/blog/5-reasons-to-try-the-kubernetes-gateway-api)
-
 [How NGINX Gateway Fabric Implements Complex Routing Rules](https://blog.nginx.org/blog/how-nginx-gateway-fabric-implements-complex-routing-rules)
-
 [NGINX Gateway Fabric Supports the Gateway API Inference Extension](https://blog.nginx.org/blog/ngf-supports-gateway-api-inference-extension)
 
 ## faq
