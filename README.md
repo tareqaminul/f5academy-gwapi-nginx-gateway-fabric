@@ -559,26 +559,7 @@ F5 NGINX Ingress Controller implements the Ingress API specification to deliver 
 The following table compares the key high‑level features of the standard Ingress API, NGINX Ingress Controller with CRDs, and Gateway API to illustrate their capabilities.
 #### NGINX Gateway Fabric vs NGINX Ingress Controller
 
-NGINX Gateway Fabric is built on the Gateway API specification, while NGINX Ingress Controller implements the Ingress API. Here's how they compare:
-
-| Feature | Ingress API | NGINX Ingress + CRDs | Gateway API |
-|---------|-------------|---------------------|-------------|
-| **Role-oriented design** | ❌ | ⚠️ Partial | ✅ |
-| **Traffic splitting** | ❌ | ✅ (via annotations) | ✅ (native) |
-| **Cross-namespace routing** | ❌ | ❌ | ✅ |
-| **Header-based matching** | ❌ | ✅ (via snippets) | ✅ (native) |
-| **Weighted backend services** | ❌ | ✅ (custom CRD) | ✅ (native) |
-| **Multiple protocols** | ⚠️ Limited | ✅ | ✅ |
-| **Portable configuration** | ⚠️ Limited | ❌ | ✅ |
-
-**Note**: NGINX Ingress Controller remains a mature, production-ready solution and is not being replaced. Choose based on your specific use case and requirements.
-
-![compare-apis](./images/compare-apis-ingress-gwapi.png)
-
-### <mark>Is NGINX Gateway Fabric Going to Replace NGINX Ingress Controller?</mark>
-NGINX Gateway Fabric is not replacing NGINX Ingress Controller. Rather, it is an emerging technology based on the first generally available release of the Gateway API specification. NGINX Ingress Controller is a mature, stable technology used in production by many customers. It can be tailored for specific use cases through custom annotations and CRDs. For example, to implement the role‑based approach, NGINX Ingress Controller uses NGINX Ingress resources, including VirtualServer, VirtualServerRoute, TransportServer, and Policy.
-
-We don’t expect NGINX Gateway Fabric to replace NGINX Ingress Controller any time soon – if that transition does happen, it’s likely to be years away. NGINX Ingress Controller will continue to play a critical role in managing north‑south network traffic for a diverse variety of environments and use cases, including load balancing, traffic limiting, traffic splitting and security.
+NGINX Gateway Fabric is built on the Gateway API specification, while NGINX Ingress Controller implements the Ingress API. NGINX Ingress Controller remains a mature, production-ready solution and is not being replaced. Choose based on your specific use case and requirements.
 
 ### <mark>Is NGINX Gateway Fabric an API Gateway?</mark>
 While it’s reasonable to think something named “Gateway API” is an “API gateway”, this is not the case. As discussed in How Do I Choose? API Gateway vs. Ingress Controller vs. Service Mesh, “API gateway” describes a set of use cases that can be implemented via different types of proxies – most commonly an ADC or load balancer and reverse proxy, and increasingly an Ingress controller or service mesh. That said, much like NGINX Ingress Controller, NGINX Gateway Fabric can be used for API gateway use cases, including routing requests to specific microservices, implementing traffic policies, and enabling canary and blue‑green deployments. This release is focused on processing HTTP/HTTPS traffic. More protocols and use cases are planned for future releases.
